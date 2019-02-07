@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Wey
+Exec=/usr/bin/wey
+Icon=/usr/lib/wey/res/lib/view/tray/icon.png
+Terminal=false
+Comment=Fast open source Slack desktop app
+Categories=Network;InstantMessaging;

@@ -1,0 +1,29 @@
+# Maintainer: mohemohe <mohemohe@ghippos.net>
+pkgname="wey-bin"
+pkgver=0.3.4
+pkgrel=1
+pkgdesc='Fast open source Slack desktop app'
+arch=('x86_64')
+url="https://github.com/yue/wey"
+license=('GPL3')
+source=("$url/releases/download/v$pkgver/wey-v$pkgver-linux-x64.zip"
+        "wey.desktop")
+sha256sums=("70f0c7df854a253da369096167f5a2d7cd2f25270baf8a2585de34cebfe32baa"
+            "6e9c856c3f526286c2f7eef4986ce2fbe0285675fb902bdac658944e09efc8ae")
+options=('!strip')
+
+package() {
+    install -d "$pkgdir/usr/lib/wey/"
+    install -m755 "$srcdir/wey" "$pkgdir/usr/lib/wey/wey"
+
+    install -d "$pkgdir/usr/bin/"
+    ln -nfs '../lib/wey/wey' "$pkgdir/usr/bin/wey"
+
+    cp -r "$srcdir/res" "$pkgdir/usr/lib/wey/res"
+
+    install -d "$pkgdir/usr/share/doc/wey"
+    install -m644  "$srcdir/LICENSE" "$pkgdir/usr/share/doc/wey"
+
+    install -d "$pkgdir/usr/share/applications/"
+    install -m644 "$srcdir/wey.desktop" "$pkgdir/usr/share/applications/wey.desktop"
+}
