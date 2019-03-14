@@ -1,0 +1,46 @@
+# Maintainer: Weitian Leung <weitianleung@gmail.com>
+
+pkgbase=wps-office-mui
+
+pkgver=10.1.0.6757
+pkgrel=1
+pkgdesc="WPS Office MUI packages"
+#depends=(wps-office=${pkgver})
+depends=(wps-office)
+
+arch=('any')
+url="http://wps-community.org/"
+license=('custom')
+
+_url="http://kdl.cc.ksosoft.com/wps-community/download/mui"
+_languages=(
+        'ja-JP         "Japanese (Japan)"'
+        )
+
+sha256sums=(
+        'de1cf8a58f72a5e8eb757115c7fd87bc4d8570f26528de587e96651484740f04'
+        )
+
+_package() {
+    pkgdesc="$2 mui package for WPS Office"
+    #depends=("wps-office=${pkgver}")
+    depends=("wps-office")
+    provides=("wps-office-mui-${1,,}")
+
+    mkdir -p "${pkgdir}/usr/lib/office6/mui"
+    cp -r "${srcdir}/office6/mui/${1/-/_}" "${pkgdir}/usr/lib/office6/mui"
+}
+
+
+for _lang in "${_languages[@]}"; do
+    declare -a "_langa=(${_lang})"
+    _locale="${_langa[0],,}"
+    _pkgname=wps-office-mui-${_locale}
+
+    pkgname+=(${_pkgname})
+    source+=(${_url}/${pkgver}/mui_${_locale/-/_}.7z)
+
+    eval "package_${_pkgname}() {
+        _package ${_lang}
+    }"
+done
